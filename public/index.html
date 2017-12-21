@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tory's Temp Thingy</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+	<style>
+
+
+	</style>
+  </head>
+  <body>
+	<div id="main">
+		<h1>Temperature: <span id="temp"></span>&deg;F</h1>
+		<h1>Humidity: <span id="humidity"></span>%</h1>
+	</div>
+  	<script>
+
+		getData().then(function(){
+  			setInterval(function(){
+				getData();
+  			}, 2000);
+		});
+
+		function getData(){
+
+			return window.fetch('http://192.168.0.115/weather/current')
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(json){
+
+				console.log(json);
+
+		    		var $tempEl = $('#temp');
+		    		var $humidityEl = $('#humidity');
+
+				$tempEl.text(json.tempf);
+				$humidityEl.text(json.humidity.toFixed(2));
+
+			});		
+
+		};
+
+  	</script>
+  </body>
+</html>
